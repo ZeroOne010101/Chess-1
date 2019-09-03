@@ -1,10 +1,11 @@
 from src.board import *
 import logging
 
-#logging.getLogger().setLevel(logging.DEBUG)
 
-#main_logger = logging.getLogger('main')
-#main_logger.setLevel(logging.DEBUG)
+# logging.getLogger().setLevel(logging.DEBUG)
+
+# main_logger = logging.getLogger('main')
+# main_logger.setLevel(logging.DEBUG)
 
 def main():
     '''
@@ -15,7 +16,7 @@ def main():
     board = Board()
     
     while True:
-        print (board)
+        print(board)
         move_valid = False  # makes the input loop run at least once
         move = None
         while not move_valid:
@@ -24,18 +25,19 @@ def main():
             if pinput in ['quit', 'exit']:
                 print(f'{board.turn} quit the game.')
                 return 0
-              
+
             move = board.getMove(pinput)
             
             if move is not None:
                 move_valid = board.is_valid_move(move)
             if not move_valid:
                 print(f'Move [{pinput}] is not valid.')
-                
+
             logging.debug(f"Move valid? {move_valid}")
-            
+    
         board.move(move)
-               
+
+
 # Makes sure, that the game only runs when it is not being imported.
 if __name__ == '__main__':
     main()
