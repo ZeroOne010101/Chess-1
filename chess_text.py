@@ -1,5 +1,6 @@
-from src.board import *
 import logging
+
+from src.board import *
 
 
 # logging.getLogger().setLevel(logging.DEBUG)

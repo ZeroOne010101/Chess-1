@@ -1,12 +1,12 @@
-from src.chess_pieces import *
-import re
 import logging
+import re
 
+from src.chess_pieces import *
 
-# logging.getLogger().setLevel(logging.DEBUG)
+logging.getLogger().setLevel(logging.DEBUG)
 
-# board_logger = logging.getLogger(__name__)
-# board_logger.setLevel(logging.DEBUG)
+board_logger = logging.getLogger(__name__)
+board_logger.setLevel(logging.DEBUG)
 
 
 # small helper functions
@@ -40,6 +40,7 @@ class Square:
     def __init__(self, row, column):
         self.row = row
         self.column = column
+        self.position = [self.row, self.column]
         self.default = None
         self.piece = None
         self.reset()
