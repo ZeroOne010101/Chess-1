@@ -3,11 +3,11 @@ from src.chess_pieces import WSYMBOLS, BSYMBOLS
 import logging
 import pygame
 
+logging.getLogger().setLevel(logging.DEBUG)
 
-# logging.getLogger().setLevel(logging.DEBUG)
+main_logger = logging.getLogger('main')
+main_logger.setLevel(logging.DEBUG)
 
-# main_logger = logging.getLogger('main')
-# main_logger.setLevel(logging.DEBUG)
 
 def main():
     """
@@ -32,57 +32,39 @@ def main():
     screen.fill(colors['Black'])
     board = Board()
 
-    checkerboard_flip_toggle = -1
-
-    def checkerboard(checkerboard_flip_toggle):
-        if checkerboard_flip_toggle == -1:
-            for row in board.game_board:
-                for square in row:
-                    if square.row % 2 == 1:
-                        if square.column % 2 == 0:
-                            pygame.draw.rect(screen, colors['White'], pygame.Rect(square.row * length_of_unit_square,
-                                                                                  square.column * length_of_unit_square,
-                                                                                  length_of_unit_square,
-                                                                                  length_of_unit_square))
-                        else:
-                            pass
+    def checkerboard():
+        logging.info('Setting up GUI-Checkerboard')
+        for row in board.game_board:
+            for square in row:
+                if square.row % 2 == 0:
+                    if square.column % 2 == 0:
+                        pygame.draw.rect(screen, colors['White'], pygame.Rect(square.row * length_of_unit_square,
+                                                                              square.column * length_of_unit_square,
+                                                                              length_of_unit_square,
+                                                                              length_of_unit_square))
                     else:
-                        if square.column % 2 == 1:
-                            pygame.draw.rect(screen, colors['White'], pygame.Rect(square.row * length_of_unit_square,
-                                                                                  square.column * length_of_unit_square,
-                                                                                  length_of_unit_square,
-                                                                                  length_of_unit_square))
-                        else:
-                            pass
-            checkerboard_flip_toggle *= -1
-        else:
-            for row in board.game_board:
-                for square in row:
-                    if square.row % 2 == 1:
-                        if square.column % 2 == 1:
-                            pygame.draw.rect(screen, colors['White'], pygame.Rect(square.row * length_of_unit_square,
-                                                                                  square.column * length_of_unit_square,
-                                                                                  length_of_unit_square,
-                                                                                  length_of_unit_square))
-                        else:
-                            pass
+                        pass
+                else:
+                    if square.column % 2 == 1:
+                        pygame.draw.rect(screen, colors['White'], pygame.Rect(square.row * length_of_unit_square,
+                                                                              square.column * length_of_unit_square,
+                                                                              length_of_unit_square,
+                                                                              length_of_unit_square))
                     else:
-                        if square.column % 2 == 0:
-                            pygame.draw.rect(screen, colors['White'], pygame.Rect(square.row * length_of_unit_square,
-                                                                                  square.column * length_of_unit_square,
-                                                                                  length_of_unit_square,
-                                                                                  length_of_unit_square))
-                        else:
-                            pass
-
+                        pass
+    
     def place_pieces():
+        logging.info('Setting up GUI-Pieces')
         for row in board.game_board:
             for square in row:
                 if square.piece != '☐':
                     # Black Pieces
                     if square.piece == BSYMBOLS[1]:  # Black Pawn
-                        image = pygame.image.load('.Images/black_p.png')
+                        image = pygame.image.load('Pieces//black_p.png')
                         screen.blit(image, (square.row * length_of_unit_square, square.column * length_of_unit_square))
+    
+                        test = image.get_rect()
+                        print(test)
                     if square.piece == BSYMBOLS[2]:  # Black Rook
                         pass
                     if square.piece == BSYMBOLS[3]:  # Black Knight
@@ -93,10 +75,11 @@ def main():
                         pass
                     if square.piece == BSYMBOLS[6]:  # Black King
                         pass
-                
+
                     # White Pieces
                     if square.piece == WSYMBOLS[1]:  # White Pawn
-                        pass
+                        image = pygame.image.load('white_p.png')
+                        screen.blit(image, (square.row * length_of_unit_square, square.column * length_of_unit_square))
                     if square.piece == WSYMBOLS[2]:  # White Rook
                         pass
                     if square.piece == WSYMBOLS[3]:  # White Knight
@@ -111,11 +94,11 @@ def main():
                     pass
     
     while True:
+        print(board)
     
-        checkerboard(checkerboard_flip_toggle)
+        checkerboard()
         place_pieces()
         pygame.display.flip()
-        screen.fill((127, 127, 127))
         
         move_valid = False  # makes the input loop run at least once
         move = None
