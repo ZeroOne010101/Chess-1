@@ -32,6 +32,8 @@ def main():
     screen.fill(colors['Black'])
     board = Board()
 
+    checkerboard_flip_toggle = -1
+
     def checkerboard(checkerboard_flip_toggle):
         if checkerboard_flip_toggle == -1:
             for row in board.game_board:
@@ -107,8 +109,7 @@ def main():
                         pass
                 else:
                     pass
-
-    checkerboard_flip_toggle = -1
+    
     while True:
     
         checkerboard(checkerboard_flip_toggle)
