@@ -82,12 +82,12 @@ class Board:
     def __init__(self):
         logging.debug("Setting up board")
         self.game_board = []
-    
+
         for row in range(8):
             self.game_board.append([])
             for column in range(8):
                 self.game_board[row].append(Square(row, column))  # generates a 2-dimensional list of square objects
-    
+
         self.turn = WHITE
     
     # These methods will help with getting and setting the pieces

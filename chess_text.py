@@ -34,7 +34,7 @@ def main():
                 print(f'Move [{pinput}] is not valid.')
 
             logging.debug(f"Move valid? {move_valid}")
-    
+
         board.move(move)
 
 

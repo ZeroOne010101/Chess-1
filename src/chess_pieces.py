@@ -26,7 +26,7 @@ class NonePiece(__Piece):
             self.symbol = WSYMBOLS[0]
         else:
             self.symbol = BSYMBOLS[0]
-    
+
         self.vectors = None
 
     def __str__(self):
