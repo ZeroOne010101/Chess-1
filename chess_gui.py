@@ -60,11 +60,8 @@ def main():
                 if square.piece != '☐':
                     # Black Pieces
                     if square.piece == BSYMBOLS[1]:  # Black Pawn
-                        image = pygame.image.load('Pieces//black_p.png')
-                        screen.blit(image, (square.row * length_of_unit_square, square.column * length_of_unit_square))
-    
-                        test = image.get_rect()
-                        print(test)
+                        image = pygame.image.load('Pieces//black_p.png').convert()
+                        screen.blit(image, [square.row * length_of_unit_square, square.column * length_of_unit_square])
                     if square.piece == BSYMBOLS[2]:  # Black Rook
                         pass
                     if square.piece == BSYMBOLS[3]:  # Black Knight
@@ -78,8 +75,8 @@ def main():
 
                     # White Pieces
                     if square.piece == WSYMBOLS[1]:  # White Pawn
-                        image = pygame.image.load('white_p.png')
-                        screen.blit(image, (square.row * length_of_unit_square, square.column * length_of_unit_square))
+                        image = pygame.image.load('Pieces/white_p.png').convert()
+                        screen.blit(image, [square.row * length_of_unit_square, square.column * length_of_unit_square])
                     if square.piece == WSYMBOLS[2]:  # White Rook
                         pass
                     if square.piece == WSYMBOLS[3]:  # White Knight
@@ -92,8 +89,8 @@ def main():
                         pass
                 else:
                     pass
-    
-    while True:
+
+    while True:  # Main loop
         print(board)
     
         checkerboard()
