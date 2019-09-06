@@ -1,7 +1,11 @@
+import logging
+import os
+
 import pygame
 
 from Pieces import *
 from src.board import *
+from src.chess_pieces import WSYMBOLS, BSYMBOLS
 
 logging.getLogger().setLevel(logging.DEBUG)
 
@@ -22,7 +26,8 @@ def main():
     
     pygame.init()
     pygame.display.set_caption('Chess')
-    clock = pygame.time.Clock()
+    Clock = pygame.time.Clock()
+    
     
     screen = pygame.display.set_mode(window_size)
 
