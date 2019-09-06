@@ -1,4 +1,5 @@
 import pygame
+
 from src.pygame_classes import Button
 
 pygame.init()
