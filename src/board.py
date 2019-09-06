@@ -40,7 +40,7 @@ class Square:
     def __init__(self, row, column):
         self.row = row
         self.column = column
-        self.position = [self.row, self.column]
+        self.color = None
         self.default = None
         self.piece = None
         self.reset()
@@ -56,8 +56,10 @@ class Square:
             self.default = NonePiece()
             if self.row == 1:
                 self.default = Pawn(WHITE)
+                self.color = 'White'
             elif self.row == 6:
                 self.default = Pawn(BLACK)
+                self.color = 'Black'
             elif self.row in (0, 7):
                 color = BLACK if self.row == 7 else WHITE
                 if self.column in (0, 7):
