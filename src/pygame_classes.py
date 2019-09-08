@@ -74,13 +74,13 @@ class Button:
         # If the button can be toggled, and the current toggle state
         self.toggle = toggle
         self.toggled = False
-
-    def draw(self, win, outline=None):
-        #Call this method to draw the button on the screen
+    
+    def draw(self, win, outline = None):
+        # Call this method to draw the button on the screen
         if outline:
-            pygame.draw.rect(win, outline, (self.x-2,self.y-2,self.width+4,self.height+4),0)
-            
-        pygame.draw.rect(win, self.color, (self.x,self.y,self.width,self.height),0)
+            pygame.draw.rect(win, outline, (self.x - 2, self.y - 2, self.width + 4, self.height + 4), 0)
+        
+        pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.height), 0)
         
         if self.text != '':
             font = pygame.font.SysFont('comicsans', 30)
@@ -88,12 +88,12 @@ class Button:
             win.blit(text, (self.x + (self.width/2 - text.get_width()/2), self.y + (self.height/2 - text.get_height()/2)))
 
     def is_over(self, pos):
-        #Pos is the mouse position or a tuple of (x,y) coordinates
+        # Pos is the mouse position or a tuple of (x,y) coordinates
         if pos[0] > self.x and pos[0] < self.x + self.width:
             if pos[1] > self.y and pos[1] < self.y + self.height:
                 return True
         return False
-
+    
     def check(self, event, pos):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if self.is_over(pos):
@@ -107,7 +107,7 @@ class Button:
                     return self.toggled
                 else:
                     return True
-                        
+
         if event.type == pygame.MOUSEMOTION:
             if not self.toggle:
                 if self.is_over(pos):
