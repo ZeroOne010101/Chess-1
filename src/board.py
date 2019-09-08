@@ -35,8 +35,8 @@ class Move:
 class Square:
     """
     The Dataclass game_board is 'made' of
-    '''
-    def __init__(self, row, column, color: tuple  = None, coords: tuple = None):
+    """
+    def __init__(self, row, column, color: tuple = None, coords: tuple = None):
         self.row = row
         self.column = column
         self.color = None

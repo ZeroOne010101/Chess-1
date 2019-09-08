@@ -18,6 +18,8 @@ def main():
     
     menu_runs = True
     game_runs = False
+    game = ChessGame(window, WIDTH, HEIGHT, CHECKERSIZE)
+
     while menu_runs:
         clock.tick(FPS)
         pos = pygame.mouse.get_pos()
@@ -29,7 +31,6 @@ def main():
                 game_runs = True
                 
         while game_runs:
-            game = ChessGame(window, WIDTH, HEIGHT, CHECKERSIZE)
             clock.tick(FPS)
             #pos = pygame.mouse.get_pos()
             
@@ -38,6 +39,6 @@ def main():
         
         pygame.display.update()
     
-if __name__ == '__main_':
+if __name__ == '__main__':
     main()
     
