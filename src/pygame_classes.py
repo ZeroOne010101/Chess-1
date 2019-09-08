@@ -1,8 +1,67 @@
+from src.board import Board
+from src.chess_pieces import *
 import pygame
 
-
-class Button():
-    def __init__(self, colors, x, y, width, height, text = '', toggle = False):
+class ChessGame:
+    def __init__ (self, window, width, height, checkersize):
+        self.window = window
+        self.width = width
+        self.height =  height
+        self.CHECKERSIZE = checkersize
+        
+        self.board = Board()
+        
+    
+    def redrawWindow(self):
+        self.draw_checkerboard()
+        self.draw_pieces()
+        
+    def draw_checkerboard(self):
+        y=0
+        for row in self.board.game_board:
+            x = 0
+            for square in row:
+                square.coords = (x,y)  # Important to know where to blit the images to
+                self.draw_chessrect((x,y), square.color)
+                x += self.width // 8
+            y += self.height // 8
+    
+    def draw_chessrect(self, coords: tuple, color: tuple):
+        pygame.draw.rect(self.window, color, (coords, self.CHECKERSIZE))
+    
+    def draw_pieces(self):
+        blitsequence = []
+        for row in self.board.game_board:
+            for square in row:
+                imgtuples = self.get_imgtuples(square)
+                if imgtuples is not None: blitsequence.append(imgtuples)
+        blitsequence = tuple(blitsequence)
+        self.window.blits(blitsequence)
+                
+    
+    def get_imgtuples(self, square):
+        if type(square.piece) == NonePiece:
+            return
+        pimage = self.get_image_surf(square.piece)
+        coords = (square.coords[0]+6.25, square.coords[1]+6.25)
+        size = (self.CHECKERSIZE[0]-14,self.CHECKERSIZE[1]-14)
+        pimage = pygame.transform.scale(pimage, size)
+        return pimage, coords
+        
+    def get_image_surf(self, piece):
+        PIECEDIR = 'src/Pieces/'
+        profs = [Pawn, Rook, Bishop, Knight, Queen, King]
+        profstrs = ['p', 'r', 'b', 'n', 'q', 'k']
+        for index in range(6):
+            if type(piece) == profs[index]:
+                profession_char = profstrs[index]
+        if piece.color == WHITE: color_str = 'white'
+        else: color_str = 'black'
+        return pygame.image.load(f'{PIECEDIR}{color_str}_{profession_char}.png')
+    
+        
+class Button:
+    def __init__ (self, colors, x, y, width, height, text='', toggle=False):
         # colors is tuple consisting of a initial rgb tuple, and a mouseover rgb tuple which is the toggle tuple if toggle is True
         self.colors = colors
         # The color the Button is currently drawn in
@@ -24,11 +83,10 @@ class Button():
         pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.height), 0)
         
         if self.text != '':
-            font = pygame.font.SysFont('comicsans', 60)
-            text = font.render(self.text, 1, (0, 0, 0))
-            win.blit(text, (
-                self.x + (self.width / 2 - text.get_width() / 2), self.y + (self.height / 2 - text.get_height() / 2)))
-    
+            font = pygame.font.SysFont('comicsans', 30)
+            text = font.render(self.text, 1, (0,0,0))
+            win.blit(text, (self.x + (self.width/2 - text.get_width()/2), self.y + (self.height/2 - text.get_height()/2)))
+
     def is_over(self, pos):
         # Pos is the mouse position or a tuple of (x,y) coordinates
         if pos[0] > self.x and pos[0] < self.x + self.width:
@@ -56,3 +114,4 @@ class Button():
                     self.color = self.colors[1]
                 else:
                     self.color = self.colors[0]
+
