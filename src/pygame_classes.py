@@ -2,15 +2,24 @@ from src.board import Board
 from src.chess_pieces import *
 import pygame
 
+PIECEDIR = 'src/Pieces/'
+IMAGES = {
+    Pawn: "p",
+    Rook: "r",
+    Bishop: "b",
+    Knight: "n",
+    Queen: "q",
+    King: "k"
+}
+
+
 class ChessGame:
     def __init__ (self, window, width, height, checkersize):
         self.window = window
         self.width = width
         self.height =  height
-        self.CHECKERSIZE = checkersize
-        
+        self.checkersize = checkersize
         self.board = Board()
-        
     
     def redrawWindow(self):
         self.draw_checkerboard()
@@ -43,9 +52,9 @@ class ChessGame:
             # increment coordinates that get embedded in square.coords
                 x += self.width / 8
             y += self.height / 8
-    
+            
     def draw_chessrect(self, coords: tuple, color: tuple):
-        pygame.draw.rect(self.window, color, (coords, self.CHECKERSIZE))
+        pygame.draw.rect(self.window, color, (coords, self.checkersize))
     
     def draw_pieces(self):
         # uses surface.blits to mass-blit the pieces
@@ -54,17 +63,15 @@ class ChessGame:
             for square in row:
                 imgtuples = self.get_imgtuples(square)
                 if imgtuples is not None: blitsequence.append(imgtuples)
-        blitsequence = tuple(blitsequence)
-        self.window.blits(blitsequence)
+        self.window.blits(tuple(blitsequence))
                 
-    
     def get_imgtuples(self, square):
         # gets a tuple of pimage and coords necessary for window.blits
-        if type(square.piece) == NonePiece:
-            return
+        if type(square.piece) is NonePiece: return
+
         pimage = self.get_image_surf(square.piece)
-        coords = (square.coords[0]+6.25, square.coords[1]+6.25)  # offset of the piece TODO: adjust to middle
-        size = (self.CHECKERSIZE[0]-14,self.CHECKERSIZE[1]-14)
+        coords = (square.coords [0] + 6.25, square.coords [1] + 6.25)  # offset of the piece TODO: adjust to middle
+        size = (self.checkersize [0] - 14, self.checkersize [1] - 14)
         pimage = pygame.transform.scale(pimage, size)
         return pimage, coords
         
@@ -76,12 +83,10 @@ class ChessGame:
         for index in range(6):
             if type(piece) == profs[index]:
                 profession_char = profstrs[index]
-        if piece.color == WHITE: color_str = 'white'
-        else: color_str = 'black'
+        color_str = "white" if piece.color == WHITE else "black"
         # returns image surface
         return pygame.image.load(f'{PIECEDIR}{color_str}_{profession_char}.png')
-    
-        
+ 
 class Button:
     def __init__ (self, colors, x, y, width, height, text='', toggle=False):
         # colors is tuple consisting of a initial rgb tuple, and a mouseover rgb tuple which is the toggle tuple if toggle is True
@@ -96,13 +101,13 @@ class Button:
         # If the button can be toggled, and the current toggle state
         self.toggle = toggle
         self.toggled = False
-
-    def draw(self, win, outline=None):
-        #Call this method to draw the button on the screen
+    
+    def draw(self, win, outline = None):
+        # Call this method to draw the button on the screen
         if outline:
-            pygame.draw.rect(win, outline, (self.x-2,self.y-2,self.width+4,self.height+4),0)
-            
-        pygame.draw.rect(win, self.color, (self.x,self.y,self.width,self.height),0)
+            pygame.draw.rect(win, outline, (self.x - 2, self.y - 2, self.width + 4, self.height + 4), 0)
+        
+        pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.height), 0)
         
         if self.text != '':
             font = pygame.font.SysFont('comicsans', 30)
@@ -110,12 +115,12 @@ class Button:
             win.blit(text, (self.x + (self.width/2 - text.get_width()/2), self.y + (self.height/2 - text.get_height()/2)))
 
     def is_over(self, pos):
-        #Pos is the mouse position or a tuple of (x,y) coordinates
+        # Pos is the mouse position or a tuple of (x,y) coordinates
         if pos[0] > self.x and pos[0] < self.x + self.width:
             if pos[1] > self.y and pos[1] < self.y + self.height:
                 return True
         return False
-
+    
     def check(self, event, pos):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if self.is_over(pos):
@@ -129,7 +134,7 @@ class Button:
                     return self.toggled
                 else:
                     return True
-                        
+
         if event.type == pygame.MOUSEMOTION:
             if not self.toggle:
                 if self.is_over(pos):
